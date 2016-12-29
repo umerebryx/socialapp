@@ -1,0 +1,55 @@
+<div id="gallery"><div class="pablo-gallery" data-reactid=".1">
+  <div class="pablo-gallery-header" data-reactid=".1.0">
+    <div class="pablo-gallery-header-text" data-reactid=".1.0.0">Images</div>
+    <div class="pablo-gallery-header-action" data-reactid=".1.0.1">Shuffle</div>
+  </div><div class="pablo-gallery-search" data-reactid=".1.1">
+  <input class="pablo-gallery-search-textbox js-image-search-textbox" type="text" placeholder="Search 600k+ images" data-reactid=".1.1.0">
+  <div class="pablo-gallery-search-icon pablo-gallery-search-icon-search" style="display:block;" data-reactid=".1.1.1"></div>
+  <div class="pablo-gallery-search-icon pablo-gallery-search-icon-clear" style="display:none;" data-reactid=".1.1.2"></div>
+</div>
+  <ul class="pablo-gallery-list js-pablo-gallery-list" data-reactid=".1.2" style="height: 490px;">
+    <% @urls.each do  |item| %>
+        <li class="pablo-gallery-item" data-reactid=".1.2.$0">
+          <div id="image-0" class="pablo-gallery-item-selected" data-reactid=".1.2.$0.$0">
+            <img id="image-0" src="<%= item %>" alt="Background" class="pablo-gallery-item-image" data-index="0">
+            <div class="pablo-gallery-item-overlay" data-reactid=".1.2.$0.$0.1"></div><div class="pablo-gallery-item-extra" style="display:none;" data-reactid=".1.2.$0.$0.2">
+            <span class="pablo-gallery-item-source" data-reactid=".1.2.$0.$0.2.0"></span><a class="pablo-gallery-item-link" target="_blank" href="" style="display:none;" data-reactid=".1.2        .$0.$0.2.1"></a></div></div></li>
+    <% end %>
+  </ul>
+  <div class="qq-upload-drop-area" style="display: none;">
+    <!-- <span><span class="hidden">Click</span> or drag a photo here to upload!</span> -->
+  </div>
+  <div class="qq-upload-button" style="position: relative; overflow: hidden; direction: ltr;">
+    <span class="upload-tooltip">Click or drag a photo here</span>
+    <span class="upload-click">Click</span>
+    <input type="file" name="file" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;"></div>
+  <div class="qq-upload-progress">
+		<span class="bar">
+		</span>
+  </div>
+  <ul class="qq-upload-list"></ul>
+</div></div></div></div></div>
+
+<script>
+$(document).ready( function () {
+    $('.js-image-search-textbox').keydown(function (e) {
+        if (e.keyCode == 13){
+            //window.location = "http://0.0.0.0:3000/picstore?type="+$(this).val()
+            $.ajax(url = '/picstore?type='+$(this).val()).done( function (data) {
+                cList = $('.js-pablo-gallery-list')
+                $(cList).empty()
+                $.each(data, function (i) {
+                    var li = $('<li/>')
+                        .addClass('pablo-gallery-item')
+                        .attr('role', 'menuitem')
+                        .appendTo(cList);
+                    var aaa = $('<img/>')
+                        .addClass('pablo-gallery-item-image')
+                        .attr("src",data[i]['thumb'])
+                        .appendTo(li);
+                })
+            })
+        }
+    })
+})
+</script>
